@@ -11,9 +11,10 @@ import { HStack } from "@/components/ui/hstack";
 import { AlertCircleIcon, EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
+import { supabase } from "@/lib/supabase";
 import { Link } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ms } from "react-native-size-matters";
 
@@ -32,7 +33,7 @@ const SignUp = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setFirstNameInvalid(false);
     setLastNameInvalid(false);
     setEmailInvalid(false);
@@ -55,8 +56,18 @@ const SignUp = () => {
       return;
     }
 
-    // TODO: call your signup API here
     setIsLoading(true);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: firstName.trim() + " " + lastName.trim(),
+        },
+      },
+    });
+    if (error) Alert.alert(error.message);
+    setIsLoading(false);
   };
 
   return (

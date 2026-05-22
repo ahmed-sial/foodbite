@@ -10,9 +10,10 @@ import {
 import { AlertCircleIcon, EyeIcon, EyeOffIcon } from "@/components/ui/icon";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { VStack } from "@/components/ui/vstack";
+import { supabase } from "@/lib/supabase";
 import { Link } from "expo-router";
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ms } from "react-native-size-matters";
 
@@ -25,7 +26,7 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setEmailInvalid(false);
     setPasswordInvalid(false);
     if (!emailRegex.test(email)) {
@@ -36,6 +37,15 @@ const SignIn = () => {
       setPasswordInvalid(true);
       return;
     }
+
+    setIsLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+    if (error) Alert.alert(error.message);
+
+    setIsLoading(false);
   };
 
   return (
@@ -54,6 +64,7 @@ const SignIn = () => {
               </FormControlLabel>
               <Input className="my-1" size="xl">
                 <InputField
+                  keyboardType="email-address"
                   type="text"
                   placeholder="johndoe@example.com"
                   value={email}
