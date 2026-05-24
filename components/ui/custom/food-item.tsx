@@ -1,19 +1,21 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ms } from "react-native-size-matters";
 
 type FoodItemProps = {
+  id: number;
   name: string;
   origin: string;
   price: string;
   rating: string;
 };
 
-const FoodItem = ({ name, origin, price, rating }: FoodItemProps) => {
+const FoodItem = ({ id, name, origin, price, rating }: FoodItemProps) => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
-      {/* Image with + button overlaid */}
       <View style={styles.imageWrapper}>
         <Image
           source={require("@/assets/images/pizza.jpg")}
@@ -23,9 +25,16 @@ const FoodItem = ({ name, origin, price, rating }: FoodItemProps) => {
       </View>
 
       <View style={styles.info}>
-        <Text style={styles.title} numberOfLines={1}>
-          {name}
-        </Text>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() => {
+            router.push(`/(tabs)/home/${id}`);
+          }}
+        >
+          <Text style={styles.title} numberOfLines={1}>
+            {name}
+          </Text>
+        </TouchableOpacity>
         <Text style={styles.subTitle} numberOfLines={1}>
           {origin}
         </Text>
@@ -66,12 +75,12 @@ const styles = StyleSheet.create({
     gap: ms(2),
   },
   title: {
-    fontSize: ms(18),
+    fontSize: ms(16),
     fontWeight: "700",
     color: "#111",
   },
   subTitle: {
-    fontSize: ms(14),
+    fontSize: ms(12),
     color: "#888",
   },
   footer: {

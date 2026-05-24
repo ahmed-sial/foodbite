@@ -59,7 +59,7 @@ const Header = () => {
       {/* Right: Notification bell */}
       <TouchableOpacity
         style={styles.bellButton}
-        onPress={() => router.push("/(tabs)/notifications")}
+        onPress={() => router.push("/home/notifications")}
         hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
       >
         <MaterialCommunityIcons

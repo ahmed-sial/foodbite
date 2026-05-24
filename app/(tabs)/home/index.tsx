@@ -60,6 +60,7 @@ const Home = () => {
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
           <FoodItem
+            id={item.id}
             name={item.name}
             origin={item.origin}
             price={item.price}

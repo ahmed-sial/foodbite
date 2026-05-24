@@ -18,10 +18,27 @@ const TabsLayout = () => {
           ),
         }}
       />
+
       <Tabs.Screen
-        name="notifications"
-        options={{ tabBarButton: () => null }}
+        name="cart"
+        options={{
+          title: "My Cart",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons color={color} size={size} name="cart" />
+          ),
+        }}
       />
+
+      <Tabs.Screen
+        name="checkout"
+        options={{
+          title: "Checkout",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons color={color} size={size} name="cash" />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="orders"
         options={{
